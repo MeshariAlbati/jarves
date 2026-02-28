@@ -6,13 +6,19 @@ from fastapi import FastAPI
 import uvicorn
 
 from scheduler.jobs import start_scheduler, scheduler
+from bot.telegram_bot import application
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Jarves is starting")
     start_scheduler()
-    yield
+    async with application:
+        await application.start()
+        await application.updater.start_polling()
+        yield
+        await application.updater.stop()
+        await application.stop()
     print("Jarves is shutting down")
     scheduler.shutdown()
 

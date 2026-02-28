@@ -12,3 +12,5 @@ class JarvesState(TypedDict):
     memory_context: str
     run_type: str
     final_response: str
+    user_message: str
+    intent: str

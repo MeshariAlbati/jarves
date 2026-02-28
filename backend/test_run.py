@@ -21,6 +21,8 @@ initial_state = {
     "errors": [],
     "memory_context": "",
     "final_response": "",
+    "user_message": "",
+    "intent": "",
 }
 
 print("Running Jarves graph...\n")

@@ -31,6 +31,13 @@ def get_memories(user_id: str, limit: int = 10) -> list[str]:
     return memories
 
 
+def save_goal(user_id: str, goal: str) -> None:
+    supabase.table("goals").insert({
+        "user_id": user_id,
+        "goal": goal
+    }).execute()
+
+
 def save_memory(user_id: str, content: str) -> None:
     supabase.table("memories").insert({
         "user_id": user_id,
