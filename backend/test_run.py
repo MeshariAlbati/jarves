@@ -32,3 +32,13 @@ print(result["memory_context"])
 print("\n=== TODAY'S PRIORITIES ===")
 for p in result["priorities"]:
     print(p)
+
+# Send to Telegram
+from bot.telegram_bot import push_morning_briefing
+print("\nSending to Telegram...")
+push_morning_briefing(
+    user_id=initial_state["user_id"],
+    priorities=result["priorities"],
+    memory_context=result["memory_context"]
+)
+print("Sent!")

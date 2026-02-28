@@ -11,7 +11,8 @@ class Settings(BaseSettings):
     telegram_bot_token: str
     supabase_url: str
     supabase_key: str
-
+    telegram_chat_id: str
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8"
