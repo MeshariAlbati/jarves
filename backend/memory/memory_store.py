@@ -43,3 +43,7 @@ def save_memory(user_id: str, content: str) -> None:
         "user_id": user_id,
         "content": content
     }).execute()
+
+
+def delete_goal(user_id: str, goal: str) -> None:
+    supabase.table("goals").delete().eq("user_id", user_id).eq("goal", goal).execute()
