@@ -1,0 +1,50 @@
+from langchain_anthropic import ChatAnthropic
+from langchain_core.messages import SystemMessage, HumanMessage
+from core.state import JarvesState
+from core.config import settings
+
+llm = ChatAnthropic(
+    model="claude-sonnet-4-6",
+    api_key=settings.anthropic_api_key
+)
+
+
+def priority_agent(state: JarvesState) -> dict:
+    memory_context = state["memory_context"]
+    goals = state["goals"]
+
+    
+    system_msg = SystemMessage(
+    content="""
+    You are a priority-planning assistant that identifies the user's most important priorities based on their memory context and goals.
+
+    Your task is to determine the THREE highest-value actionable priorities for the user right now.
+
+    Rules you MUST follow:
+    - The response MUST be a numbered list of exactly 3 items.
+    - Each item must be a clear, concrete, actionable task.
+    - Each item must be one sentence only.
+    - Do NOT include explanations, reasoning, introductions, or conclusions.
+    - Do NOT include any text before or after the list.
+    - Do NOT use bullet points, markdown, or extra formatting.
+    - Priorities must be ranked by urgency and impact.
+    - Prefer tasks that are time-sensitive, previously avoided.
+
+    Output format (STRICT):
+    1. First priority task
+    2. Second priority task
+    3. Third priority task
+    """
+    )
+    human_msg = HumanMessage(content=f"Memory context: {memory_context}\nGoals: {goals}")
+
+    response = llm.invoke([system_msg, human_msg]).content
+
+    # Parse the numbered list into a Python list
+    priorities = [
+        line.strip()
+        for line in response.strip().split("\n")
+        if line.strip()
+    ]
+
+    return {"priorities": priorities}
