@@ -42,3 +42,8 @@ push_morning_briefing(
     memory_context=result["memory_context"]
 )
 print("Sent!")
+
+# Save memory
+from memory.memory_store import save_memory
+save_memory(initial_state["user_id"], result["memory_context"])
+print("Memory saved!")

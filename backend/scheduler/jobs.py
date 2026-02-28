@@ -4,7 +4,8 @@ load_dotenv()
 
 from graph.pos_graph import jarves_graph
 from bot.telegram_bot import push_morning_briefing
-from memory.memory_store import get_goals
+from memory.memory_store import get_goals, save_memory
+from datetime import date
 
 scheduler = BackgroundScheduler()
 
@@ -30,6 +31,7 @@ def run_morning_briefing():
         priorities=result["priorities"],
         memory_context=result["memory_context"]
     )
+    save_memory(user_id, result["memory_context"])
 
 def start_scheduler():
     # Morning briefing — every day at 8am
