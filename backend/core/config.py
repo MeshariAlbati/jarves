@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     
-    anthropic_api_key: str
+    anthropic_api_key: str | None = None
     groq_api_key: str
     langsmith_api_key: str
     langsmith_project: str
