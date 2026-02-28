@@ -1,12 +1,13 @@
 from langchain_anthropic import ChatAnthropic
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from core.state import JarvesState
 from core.config import settings
 
-# Initialize Claude — one instance, reused on every call
-llm = ChatAnthropic(
-    model="claude-sonnet-4-6",
-    api_key=settings.anthropic_api_key
+
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    api_key=settings.groq_api_key
 )
 
 
