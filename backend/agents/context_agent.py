@@ -3,6 +3,7 @@ from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from core.state import JarvesState
 from core.config import settings
+from memory.memory_store import get_memories
 
 
 llm = ChatGroq(
@@ -15,15 +16,12 @@ def context_agent(state: JarvesState) -> dict:
     user_id = state["user_id"]
     run_type = state["run_type"]
 
-    # NOTE: Mocked memories for now — Supabase connection comes later
-    # These simulate what would be retrieved from the memory store
-    raw_memories = [
-        "User's main goal: become a backend AI engineer",
-        "User is building Jarves — a personal ops system using LangGraph",
-        "User mentioned feeling overwhelmed with too many tasks last week",
-        "User prefers concise, direct communication",
-        "User wants to ship the first version of Jarves by end of March",
-    ]
+    # Fetch real memories from Supabase
+    raw_memories = get_memories(user_id)
+
+    # First run fallback — no memories yet
+    if not raw_memories:
+        return {"memory_context": "No memories yet. This is the first run."}
 
    
     system_msg = SystemMessage(

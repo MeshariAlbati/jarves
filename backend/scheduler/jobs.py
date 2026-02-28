@@ -4,20 +4,19 @@ load_dotenv()
 
 from graph.pos_graph import jarves_graph
 from bot.telegram_bot import push_morning_briefing
+from memory.memory_store import get_goals
 
 scheduler = BackgroundScheduler()
 
 
 def run_morning_briefing():
+    user_id = "meshari"
+    goals = get_goals(user_id)
     initial_state = {
     "messages": [],
-    "user_id": "meshari",
+    "user_id": user_id,
     "run_type": "morning_briefing",
-    "goals": [
-        "Become a backend AI engineer",
-        "Ship Jarves by end of March",
-        "Build a strong portfolio",
-    ],
+    "goals": goals,
     "priorities": [],
     "tasks": [],
     "errors": [],
