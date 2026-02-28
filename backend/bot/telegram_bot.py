@@ -2,9 +2,13 @@ import asyncio
 from telegram import Bot, Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 from core.config import settings
+from memory.memory_store import get_user_name, save_user_name
 
 # One bot instance reused across all sends
 bot = Bot(token=settings.telegram_bot_token)
+
+# Tracks users we're waiting on to provide their name
+waiting_for_name: set = set()
 
 # Telegram Application for receiving messages
 application = Application.builder().token(settings.telegram_bot_token).build()
@@ -43,13 +47,29 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     from memory.memory_store import get_goals
 
     user_message = update.message.text
-    user_id = "meshari"
+    user_id = str(update.message.chat_id)
     print(f"\n{'='*40}")
     print(f"[Telegram] New message from {user_id}: '{user_message}'")
+
+    # Onboarding: save name if we were waiting for it
+    if user_id in waiting_for_name:
+        save_user_name(user_id, user_message.strip())
+        waiting_for_name.discard(user_id)
+        await update.message.reply_text(f"Hi baby, {user_message.strip()}! I'm Jarves, your personal AI ops system. How can I help you today? Btw who created me is Meshari and he is the 🐐")
+        return
+
+    # Onboarding: ask for name if we don't know it yet
+    name = get_user_name(user_id)
+    if not name:
+        waiting_for_name.add(user_id)
+        
+        await update.message.reply_text(f"Hellooo, what's your beautiful name today? ")
+        return
 
     initial_state = {
         "messages": [],
         "user_id": user_id,
+        "user_name": name,
         "run_type": "user_query",
         "goals": get_goals(user_id),
         "priorities": [],

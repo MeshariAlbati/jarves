@@ -9,6 +9,7 @@ class JarvesState(TypedDict):
     tasks: list[str]
     errors: list[str]
     user_id: str
+    user_name: str
     memory_context: str
     run_type: str
     final_response: str

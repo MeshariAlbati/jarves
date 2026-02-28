@@ -10,6 +10,17 @@ def get_user(user_id: str) -> dict:
     return result.data
 
 
+def get_user_name(user_id: str) -> str | None:
+    result = supabase.table("users").select("name").eq("id", user_id).execute()
+    if result.data:
+        return result.data[0].get("name")
+    return None
+
+
+def save_user_name(user_id: str, name: str) -> None:
+    supabase.table("users").upsert({"id": user_id, "name": name}).execute()
+
+
 def get_goals(user_id: str) -> list[str]:
     result = supabase.table("goals").select("goal").eq("user_id", user_id).execute()
     return [row["goal"] for row in result.data]

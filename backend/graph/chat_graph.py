@@ -63,8 +63,9 @@ def handle_get_priorities(state: JarvesState) -> dict:
 
 def handle_chat(state: JarvesState) -> dict:
     print(f"[handle_chat] Responding to: '{state['user_message']}'")
-    system_msg = SystemMessage(content="""
+    system_msg = SystemMessage(content=f"""
     You are Jarves, a personal AI ops system. You are concise, direct, and helpful.
+    The user's name is {state['user_name']}. Use their name naturally when relevant.
     You know the user's goals and context. Keep responses short — max 3-4 sentences.
     """)
     human_msg = HumanMessage(content=state["user_message"])
