@@ -1,12 +1,11 @@
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from core.state import JarvesState
 from core.config import settings
 
-llm = ChatOpenAI(
-    model="nousresearch/hermes-3-llama-3.1-405b:free",
-    openai_api_key=settings.openrouter_api_key,
-    openai_api_base="https://openrouter.ai/api/v1"
+llm = ChatGroq(
+    model="llama-3.1-8b-instant",
+    groq_api_key=settings.groq_api_key
 )
 
 

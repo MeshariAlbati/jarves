@@ -1,14 +1,13 @@
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from core.state import JarvesState
 from core.config import settings
 from memory.memory_store import get_memories
 
 
-llm = ChatOpenAI(
-    model="nousresearch/hermes-3-llama-3.1-405b:free",
-    openai_api_key=settings.openrouter_api_key,
-    openai_api_base="https://openrouter.ai/api/v1"
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    groq_api_key=settings.groq_api_key
 )
 
 
