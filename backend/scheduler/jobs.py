@@ -11,23 +11,29 @@ scheduler = BackgroundScheduler()
 
 
 def run_morning_briefing():
+    from memory.memory_store import get_user_name
     user_id = "meshari"
+    name = get_user_name(user_id) or user_id
     goals = get_goals(user_id)
     initial_state = {
-    "messages": [],
-    "user_id": user_id,
-    "run_type": "morning_briefing",
-    "goals": goals,
-    "priorities": [],
-    "tasks": [],
-    "errors": [],
-    "memory_context": "",
-    "final_response": "",
-}
+        "messages": [],
+        "user_id": user_id,
+        "user_name": name,
+        "run_type": "morning_briefing",
+        "goals": goals,
+        "priorities": [],
+        "tasks": [],
+        "errors": [],
+        "memory_context": "",
+        "final_response": "",
+        "user_message": "",
+        "intent": "",
+    }
 
     result = jarves_graph.invoke(initial_state)
     push_morning_briefing(
-        user_id=initial_state["user_id"],
+        user_id=user_id,
+        name=name,
         priorities=result["priorities"],
         memory_context=result["memory_context"]
     )
