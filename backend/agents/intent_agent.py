@@ -4,7 +4,7 @@ from core.state import JarvesState
 from core.config import settings
 
 llm = ChatOpenAI(
-    model="mistral-small-3.1-24b-instruct:free",
+    model="mistralai/mistral-small-3.1-24b-instruct:free",
     openai_api_key=settings.openrouter_api_key,
     openai_api_base="https://openrouter.ai/api/v1"
 )
