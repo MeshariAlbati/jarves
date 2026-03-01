@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph, START, END
-from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from core.state import JarvesState
 from core.config import settings
@@ -8,7 +8,11 @@ from agents.context_agent import context_agent
 from agents.priority_agent import priority_agent
 from memory.memory_store import save_memory, save_goal, delete_goal, get_goals
 
-llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=settings.groq_api_key)
+llm = ChatOpenAI(
+    model="nousresearch/hermes-3-llama-3.1-405b:free",
+    openai_api_key=settings.openrouter_api_key,
+    openai_api_base="https://openrouter.ai/api/v1"
+)
 
 
 #Action Nodes 

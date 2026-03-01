@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     
     anthropic_api_key: str | None = None
     groq_api_key: str
+    openrouter_api_key: str
     langsmith_api_key: str
     langsmith_project: str
     langsmith_tracing: str
