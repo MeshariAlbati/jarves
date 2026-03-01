@@ -48,7 +48,6 @@ def priority_agent(state: JarvesState) -> dict:
     3. Third priority task
     """
 )
-    )
     human_msg = HumanMessage(content=f"Memory context: {memory_context}\nGoals: {goals}")
 
     response = llm.invoke([system_msg, human_msg]).content
