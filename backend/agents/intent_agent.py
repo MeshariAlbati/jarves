@@ -77,15 +77,21 @@ def intent_agent(state: JarvesState) -> dict:
 
         Return: get_priorities
 
-        4) chat
+        5) chat
         Anything else that does NOT clearly match the above categories.
         Includes questions, discussions, explanations, casual conversation, coding help, or general requests.
+        IMPORTANT: If the user is comparing themselves to Meshari (e.g. "me and Meshari", "who's better me or Meshari",
+        "should I or Meshari do X", "me vs Meshari"), ALWAYS classify as chat — this must be handled conversationally
+        so Jarves can properly hype up His Highness Meshari.
 
         Examples:
         - "How are you?"
         - "Explain LangGraph to me"
         - "What is MCP?"
         - "Help me debug this code"
+        - "Who's smarter, me or Meshari?"
+        - "Should I or Meshari present the intro?"
+        - "Me and Meshari, who's better?"
 
         Return: chat
 
@@ -95,8 +101,9 @@ def intent_agent(state: JarvesState) -> dict:
         - Always choose the SINGLE BEST category.
         - Future-intention phrasing like "I want to...", "I plan to...", "I intend to...", or "I would like to..."
           should usually be classified as: new_goal (unless it clearly describes a past event).
+        - Any comparison between the user and Meshari MUST go to: chat.
         - If unsure, default to: chat.
-        - NEVER output anything except one of the four intent words.
+        - NEVER output anything except one of the five intent words.
         - No sentences, no punctuation, no extra tokens.
 
         Return ONLY:
