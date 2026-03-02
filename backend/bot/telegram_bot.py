@@ -83,7 +83,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     result = chat_graph.invoke(initial_state)
 
-    print(f"[Telegram] Sending response: '{result['final_response'][:60]}...'")
+    print(f"[Telegram] Sending response: '{result['final_response']}'")
     print(f"{'='*40}\n")
     await update.message.reply_text(result["final_response"])
 
